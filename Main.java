@@ -39,7 +39,16 @@ class Person {
         String p = name.patronymic;
 
         if (father != null) {
-            if (s == null && father.name.surname != null) s = father.name.surname;
+            if (s == null) {
+                Person curr = father;
+                while (curr != null) {
+                    if (curr.name.surname != null) {
+                        s = curr.name.surname;
+                        break;
+                    }
+                    curr = curr.father;
+                }
+            }
             if (p == null && father.name.firstName != null) p = father.name.firstName + "ович";
         }
 
@@ -115,7 +124,7 @@ public class Main {
         System.out.println(p2);
         System.out.println(p3);
 
-        Person ivan = new Person(new Name("Чудов", "Иван", null), 180);
+        Person ivan = new Person(new Name("Чудов", "Иван", null), 180, null);
         Person petr = new Person(new Name(null, "Петр", null), 175, ivan);
         Person boris = new Person(new Name(null, "Борис", null), 170, petr);
         System.out.println(ivan);
